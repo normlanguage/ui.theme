@@ -1,4 +1,4 @@
-package theme
+package ui.theme
 
 import std.testing.Test
 import std.io.Resource

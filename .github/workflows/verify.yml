@@ -25,28 +25,28 @@ jobs:
         run: |
           ./scripts/build.ps1 -JavaHome $env:JAVA_HOME_21_X64
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ./scripts/norm.ps1 check theme
+          ./scripts/norm.ps1 check ui/theme
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          git diff --exit-code -- theme/module.norm
+          git diff --exit-code -- ui/theme/module.norm
       - name: Color kernel references
         run: |
           & "$env:JAVA_HOME_21_X64/bin/javac.exe" --release 21 -cp build/classes -d build/test-classes src/test/java/dev/normlanguage/theme/ColorMathTest.java
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & "$env:JAVA_HOME_21_X64/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
       - name: Theme contracts
-        run: ./scripts/norm.ps1 test theme
+        run: ./scripts/norm.ps1 test ui/theme
       - name: Package
-        run: ./scripts/norm.ps1 package theme --output build/repository
+        run: ./scripts/norm.ps1 package ui/theme --output build/repository
       - name: Archive consumer and desktop acceptance
         run: |
           ./scripts/desktop.ps1 -Verify -JavaHome $env:JAVA_HOME_21_X64
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/norm.ps1 run samples/basic
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          git diff --exit-code -- theme/module.norm samples/desktop/module.norm
+          git diff --exit-code -- ui/theme/module.norm samples/desktop/module.norm
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: theme-candidate
+          name: ui-theme-candidate
           path: |
             build/repository
             build/desktop-preview.png

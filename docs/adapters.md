@@ -1,6 +1,6 @@
 # UI adapter contract
 
-The public source contract is [ThemeSource](../theme/lifecycle.norm). Keep the UI dependency direction toward `theme`; platform adapters and components never become core dependencies.
+The public source contract is [ThemeSource](../ui/theme/lifecycle.norm). Keep the UI dependency direction toward `ui.theme`; platform adapters and components never become core dependencies.
 
 - Serialize operations on one theme tree in the host's execution context. Core performs no thread dispatch and does not make a source safe for concurrent mutation. Restore the appropriate UI context before updates.
 - `watch` delivers the current snapshot synchronously before returning. A nested watch during notification has the same initial-delivery rule. Initial-delivery failure unregisters that subscription.
@@ -13,6 +13,6 @@ The public source contract is [ThemeSource](../theme/lifecycle.norm). Keep the U
 - Keep selection and focus independent of pointer state. Keep animation state, geometry, typography and component-specific style mapping in the UI library. Core contains no component registry or global singleton.
 - Give each independent Web UI/session or desktop window its own manager unless shared theme selection is intentional. Immutable definitions and snapshots can be shared.
 
-The [desktop sample](../samples/desktop/application.norm) is an adapter example, not a core dependency. [Lifecycle tests](../theme/tests/lifecycle_test.norm) and [color tests](../theme/tests/color_test.norm) are the executable acceptance index.
+The [desktop sample](../samples/desktop/application.norm) is an adapter example, not a core dependency. [Lifecycle tests](../ui/theme/tests/lifecycle_test.norm) and [color tests](../ui/theme/tests/color_test.norm) are the executable acceptance index.
 
 Color-space reference: [W3C CSS Color 4](https://www.w3.org/TR/css-color-4/). Opaque enabled text pairs target the [4.5:1 contrast threshold](https://www.w3.org/TR/WCAG22/#contrast-minimum). The authoritative conversion matrices, gamut reduction and role-generation rules are in the sources linked from the repository index.

@@ -1,4 +1,4 @@
-# theme
+# ui.theme
 
 [简体中文](README.zh-CN.md)
 
@@ -25,31 +25,31 @@ Complete executable usage and imports: [basic sample](samples/basic/application.
 
 | API | Authoritative source |
 | --- | --- |
-| Colors and state pairs | [color.norm](theme/color.norm) |
-| Seeds, overrides, roles, snapshots, generation | [palette.norm](theme/palette.norm) |
-| Sources, manager, scopes, subscriptions | [lifecycle.norm](theme/lifecycle.norm) |
+| Colors and state pairs | [color.norm](ui/theme/color.norm) |
+| Seeds, overrides, roles, snapshots, generation | [palette.norm](ui/theme/palette.norm) |
+| Sources, manager, scopes, subscriptions | [lifecycle.norm](ui/theme/lifecycle.norm) |
 | sRGB, Oklab/OKLCH chroma scaling and gamut mapping | [ColorMath.java](src/main/java/dev/normlanguage/theme/ColorMath.java) |
-| Module identity and dependencies | [module.norm](theme/module.norm) |
-| Acceptance cases | [color tests](theme/tests/color_test.norm), [lifecycle tests](theme/tests/lifecycle_test.norm) |
+| Module identity and dependencies | [module.norm](ui/theme/module.norm) |
+| Acceptance cases | [color tests](ui/theme/tests/color_test.norm), [lifecycle tests](ui/theme/tests/lifecycle_test.norm) |
 
 ## Development
 
-Requires Windows PowerShell 7, Norm 0.25.4 and JDK 21. Run from the repository root:
+Requires Windows PowerShell 7, the compiler selected by [the verification workflow](.github/workflows/verify.yml), and JDK 21. Run from the repository root:
 
 Set `JAVA_HOME` to JDK 21, or pass `-JavaHome` to the build and desktop scripts. Java compiler versions can produce different bytecode even with the same `--release` target; the build requires JDK 21 to preserve artifact digests.
 
 ```powershell
 ./scripts/build.ps1
-./scripts/norm.ps1 check theme
-./scripts/norm.ps1 test theme --filter theme.scopesInheritAndPublishAtomically
-./scripts/norm.ps1 package theme --output build/repository
-./scripts/norm.ps1 package theme --output .norm-home/.norm/cache/packages
+./scripts/norm.ps1 check ui/theme
+./scripts/norm.ps1 test ui/theme --filter ui.theme.scopesInheritAndPublishAtomically
+./scripts/norm.ps1 package ui/theme --output build/repository
+./scripts/norm.ps1 package ui/theme --output .norm-home/.norm/cache/packages
 ./scripts/norm.ps1 run samples/basic
 ./scripts/desktop.ps1 -Verify
 ```
 
 `scripts/norm.ps1` isolates candidate packages in `.norm-home`; it does not install into the user's normal package cache. After intentionally changing the color kernel, rebuild with `./scripts/build.ps1 -UpdatePin` and review the resulting module digest.
 
-The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. Publish the packaged NAR and SHA-256 sidecar through GitHub Releases. Norm 0.26.1 and newer include and verify the kernel dependency in that package; consumers declare `dependency(repository: "github", name: "theme", version: 1)`. Building a candidate does not publish anything.
+The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. Publish the packaged NAR and SHA-256 sidecar through GitHub Releases. The package includes and verifies its kernel dependency; consumers declare `dependency(repository: "github", name: "ui.theme", version: 2)`. Building a candidate does not publish anything.
 
 [Desktop sample](samples/README.md) opens an interactive preview without verification mode.

@@ -1,4 +1,4 @@
-# theme
+# ui.theme
 
 [English](README.md)
 
@@ -8,11 +8,11 @@
 
 - [完整使用示例](samples/basic/application.norm)
 - [UI 适配契约](docs/adapters.md)
-- [颜色类型](theme/color.norm)
-- [配色 API](theme/palette.norm)
-- [主题生命周期 API](theme/lifecycle.norm)
-- [主题测试](theme/tests/lifecycle_test.norm)
+- [颜色类型](ui/theme/color.norm)
+- [配色 API](ui/theme/palette.norm)
+- [主题生命周期 API](ui/theme/lifecycle.norm)
+- [主题测试](ui/theme/tests/lifecycle_test.norm)
 - [构建与本地包验证](README.md#development)
 - [真实桌面示例](samples/README.md)
 
-模块名称、版本、依赖和颜色内核坐标统一在 [module.norm](theme/module.norm) 声明。构建使用独立缓存，不会发布工件或修改用户的常规包缓存。
+模块名称、版本、依赖和颜色内核坐标统一在 [module.norm](ui/theme/module.norm) 声明。构建使用独立缓存，不会发布工件或修改用户的常规包缓存。

@@ -1,4 +1,4 @@
-package theme
+package ui.theme
 
 value Color {
   private Integer rgba
