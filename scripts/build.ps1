@@ -3,8 +3,8 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $classes = Join-Path $root 'build/classes'
 $modulePath = Join-Path $root 'ui/theme/module.norm'
-New-Item -ItemType Directory -Force (Join-Path $root 'ui/theme/resources') | Out-Null
-Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $root 'ui/theme/resources/LICENSE')
+New-Item -ItemType Directory -Force (Join-Path $root 'ui/theme/resources/META-INF/licenses/ui.theme') | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $root 'ui/theme/resources/META-INF/licenses/ui.theme/LICENSE')
 $module = Get-Content -Raw $modulePath
 $coordinate = [regex]::Match($module, 'mavenJar\(group: "([^"]+)", artifact: "([^"]+)", version: "([^"]+)"')
 if (!$coordinate.Success) { throw 'Missing color kernel Maven coordinate in module.norm' }
