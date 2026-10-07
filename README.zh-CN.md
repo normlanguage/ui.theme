@@ -16,3 +16,7 @@
 - [真实桌面示例](samples/README.md)
 
 模块名称、版本、依赖和颜色内核坐标统一在 [module.norm](ui/theme/module.norm) 声明。构建使用独立缓存，不会发布工件或修改用户的常规包缓存。
+
+直接运行 `norm run samples/basic` 消费发布包，无需构建本仓库。桌面示例也默认使用发布包；仅显式传入 `-Source` 才验证当前源码。
+
+仓库规范：[package-standards](https://github.com/normlanguage/package-standards)。许可证：[MPL-2.0](LICENSE)。

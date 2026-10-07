@@ -4,7 +4,7 @@
 - [Desktop integration](desktop/application.norm): a separate module with its own JDK Swing host. Consumes the packaged `ui.theme` archive, preserving input text and selection while changing mode and brand.
 - [Desktop acceptance](desktop/tests/desktop_test.norm): real button events, local dark-scope retention and a rendered preview at `build/desktop-preview.png`.
 
-Build the core first using the [repository instructions](../README.md#development).
+Install the compiler selected by the [workflow](../.github/workflows/verify.yml). Run `norm run samples/basic` for the published-package example. The desktop host requires JDK 21 and PowerShell 7. Use `-Source` only when validating this checkout; see [development](../README.md#development).
 
 ```powershell
 ./scripts/desktop.ps1

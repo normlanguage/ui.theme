@@ -3,11 +3,14 @@ name: Verify
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   verify:
@@ -20,7 +23,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: normlanguage/registry/.github/actions/setup-norm@d229852448570c786a3f86e62c7db36769ed9a18
         with:
-          source-ref: 9dd8571427f77e7fa9b9adab38ac1272f7d82d2a
+          source-ref: f964fa87e1ca5851d4ff2d796e01c093c13ad247
       - name: Build and check
         run: |
           ./scripts/build.ps1 -JavaHome $env:JAVA_HOME_21_X64
@@ -35,8 +38,12 @@ jobs:
           & "$env:JAVA_HOME_21_X64/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
       - name: Theme contracts
         run: ./scripts/norm.ps1 test ui/theme
-      - name: Package
-        run: ./scripts/norm.ps1 package ui/theme --output build/repository
+      - id: package
+        uses: normlanguage/registry/.github/actions/package-module@1c5b2948a0c788f1aa21542255eb1a445027ab29
+        with:
+          module-path: ui/theme
+          norm-executable: ./scripts/norm.ps1
+          cache-directory: .norm-home/.norm/cache/packages/github
       - name: Archive consumer and desktop acceptance
         run: |
           ./scripts/desktop.ps1 -Verify -JavaHome $env:JAVA_HOME_21_X64
@@ -50,3 +57,7 @@ jobs:
           path: |
             build/repository
             build/desktop-preview.png
+      - uses: normlanguage/registry/.github/actions/publish-module@1c5b2948a0c788f1aa21542255eb1a445027ab29
+        with:
+          archive: ${{ steps.package.outputs.archive }}
+          version: ${{ steps.package.outputs.version }}
