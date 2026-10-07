@@ -18,7 +18,7 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: normlanguage/registry/.github/actions/setup-norm@c6a21b89db93b3ce3858f0d451f05d786b3ee8ea
+      - uses: normlanguage/registry/.github/actions/setup-norm@d229852448570c786a3f86e62c7db36769ed9a18
         with:
           source-ref: fb7681ab932737cc0b045cce428ee6e67ef0d7ce
       - name: Build and check
