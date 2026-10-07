@@ -18,38 +18,28 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - name: Install Norm
-        run: |
-          $base = 'https://github.com/normlanguage/Norm/releases/download/v0.25.4'
-          $tools = Join-Path $env:RUNNER_TEMP 'norm-tools'
-          New-Item -ItemType Directory -Force $tools | Out-Null
-          Invoke-WebRequest "$base/norm.exe" -OutFile "$tools/norm.exe"
-          Invoke-WebRequest "$base/SHA256SUMS" -OutFile "$tools/SHA256SUMS"
-          $sums = Get-Content -Raw "$tools/SHA256SUMS"
-          $expected = [regex]::Match($sums, '(?m)^([a-fA-F0-9]{64})\s+norm\.exe\s*$').Groups[1].Value
-          $actual = (Get-FileHash "$tools/norm.exe" -Algorithm SHA256).Hash
-          if (!$expected -or $actual -ne $expected) { throw 'Norm checksum mismatch' }
-          $tools | Out-File -FilePath $env:GITHUB_PATH -Append
-          "JAVA_HOME=$env:JAVA_HOME_21_X64" | Out-File -FilePath $env:GITHUB_ENV -Append
+      - uses: normlanguage/registry/.github/actions/setup-norm@c6a21b89db93b3ce3858f0d451f05d786b3ee8ea
+        with:
+          source-ref: fb7681ab932737cc0b045cce428ee6e67ef0d7ce
       - name: Build and check
         run: |
-          ./scripts/build.ps1
+          ./scripts/build.ps1 -JavaHome $env:JAVA_HOME_21_X64
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/norm.ps1 check theme
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git diff --exit-code -- theme/module.norm
       - name: Color kernel references
         run: |
-          & "$env:JAVA_HOME/bin/javac.exe" --release 21 -cp build/classes -d build/test-classes src/test/java/dev/normlanguage/theme/ColorMathTest.java
+          & "$env:JAVA_HOME_21_X64/bin/javac.exe" --release 21 -cp build/classes -d build/test-classes src/test/java/dev/normlanguage/theme/ColorMathTest.java
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          & "$env:JAVA_HOME/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
+          & "$env:JAVA_HOME_21_X64/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
       - name: Theme contracts
         run: ./scripts/norm.ps1 test theme
       - name: Package
         run: ./scripts/norm.ps1 package theme --output build/repository
       - name: Archive consumer and desktop acceptance
         run: |
-          ./scripts/desktop.ps1 -Verify
+          ./scripts/desktop.ps1 -Verify -JavaHome $env:JAVA_HOME_21_X64
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/norm.ps1 run samples/basic
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
