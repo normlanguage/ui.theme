@@ -3,6 +3,8 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $classes = Join-Path $root 'build/classes'
 $modulePath = Join-Path $root 'ui/theme/module.norm'
+New-Item -ItemType Directory -Force (Join-Path $root 'ui/theme/resources') | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $root 'ui/theme/resources/LICENSE')
 $module = Get-Content -Raw $modulePath
 $coordinate = [regex]::Match($module, 'mavenJar\(group: "([^"]+)", artifact: "([^"]+)", version: "([^"]+)"')
 if (!$coordinate.Success) { throw 'Missing color kernel Maven coordinate in module.norm' }
@@ -14,7 +16,7 @@ $library = Join-Path $root ('build/repository/' + $coordinatePath)
 $cache = Join-Path $root ('.norm-home/.norm/cache/maven/' + $coordinatePath)
 $artifactPath = Join-Path $library "$artifact-$version.jar"
 & (Join-Path $PSScriptRoot 'compile.ps1') -Sources (Join-Path $root 'src/main/java') -Classes $classes -Archive $artifactPath -JavaHome $JavaHome
-$pom = '<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><groupId>' + $group + '</groupId><artifactId>' + $artifact + '</artifactId><version>' + $version + '</version></project>'
+$pom = '<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><groupId>' + $group + '</groupId><artifactId>' + $artifact + '</artifactId><version>' + $version + '</version><licenses><license><name>MPL-2.0</name><url>https://www.mozilla.org/MPL/2.0/</url></license></licenses></project>'
 Set-Content -LiteralPath (Join-Path $library "$artifact-$version.pom") -Value $pom -NoNewline
 New-Item -ItemType Directory -Force $cache | Out-Null
 Copy-Item -LiteralPath $artifactPath -Destination $cache

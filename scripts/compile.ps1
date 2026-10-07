@@ -24,5 +24,7 @@ if ($LASTEXITCODE -ne 0 -or $compilerVersion -notmatch '^javac 21\.') {
 $files = Get-ChildItem -LiteralPath $Sources -Filter '*.java' -Recurse | ForEach-Object FullName
 & $javac --release 21 -encoding UTF-8 -d $target $files
 if ($LASTEXITCODE -ne 0) { throw 'Java compilation failed' }
+New-Item -ItemType Directory -Force (Join-Path $target 'META-INF') | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $target 'META-INF/LICENSE')
 & $jar --create --no-manifest --file $Archive --date=2026-01-01T00:00:00Z -C $target .
 if ($LASTEXITCODE -ne 0) { throw 'Java packaging failed' }

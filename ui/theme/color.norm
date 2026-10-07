@@ -1,5 +1,13 @@
 package ui.theme
 
+import ui.theme.internal.colorMathParse
+import ui.theme.internal.colorMathFormat
+import ui.theme.internal.colorMathAlpha
+import ui.theme.internal.colorMathOpacity
+import ui.theme.internal.colorMathContrast
+import ui.theme.internal.colorMathMix
+import ui.theme.internal.colorMathTone
+
 value Color {
   private Integer rgba
 

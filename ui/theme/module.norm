@@ -1,11 +1,11 @@
 Module module() {
   return module(
     name: "ui.theme",
-    version: 2,
-    exports: ["ColorMath", "color", "palette", "lifecycle"],
+    version: 3,
+    exports: ["color", "palette", "lifecycle"],
     binding: jarBinding(
-      target: mavenJar(group: "dev.normlanguage", artifact: "theme-colors", version: "1", resolution: sha256("a4d1b9b082b2c964bc84d1fd550dcc30df74575e83b730919654e9370d0a39ab")),
-      api: [jarType(name: "ColorMath", members: ["parse", "format", "tone", "mix", "contrast", "opacity", "alpha"])]
+      target: mavenJar(group: "dev.normlanguage", artifact: "theme-colors", version: "2", resolution: sha256("eb21954d4d9eb213d8c2076aba72b6a815b567f099099e8f94f448a1c7347f78")),
+      api: [jarType(name: "ColorMath", alias: "internal.ColorMath", members: ["parse", "format", "tone", "mix", "contrast", "opacity", "alpha"])]
     )
   )
 }

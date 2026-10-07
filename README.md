@@ -45,11 +45,15 @@ Set `JAVA_HOME` to JDK 21, or pass `-JavaHome` to the build and desktop scripts.
 ./scripts/norm.ps1 package ui/theme --output build/repository
 ./scripts/norm.ps1 package ui/theme --output .norm-home/.norm/cache/packages
 ./scripts/norm.ps1 run samples/basic
-./scripts/desktop.ps1 -Verify
+./scripts/desktop.ps1 -Verify -Source
 ```
 
 `scripts/norm.ps1` isolates candidate packages in `.norm-home`; it does not install into the user's normal package cache. After intentionally changing the color kernel, rebuild with `./scripts/build.ps1 -UpdatePin` and review the resulting module digest.
 
-The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. Publish the packaged NAR and SHA-256 sidecar through GitHub Releases. The package includes and verifies its kernel dependency; consumers declare `dependency(repository: "github", name: "ui.theme", version: 2)`. Building a candidate does not publish anything.
+The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. The release workflow publishes the NAR and SHA-256 sidecar for an immutable version tag. The package includes and verifies its kernel dependency; consumers declare `dependency(repository: "github", name: "ui.theme", version: 3)`. Building a candidate does not publish anything.
 
 [Desktop sample](samples/README.md) opens an interactive preview without verification mode.
+
+Run `norm run samples/basic` to consume the published package without building this repository. The desktop sample uses the published package by default; `-Source` selects this checkout explicitly.
+
+Repository requirements: [package-standards](https://github.com/normlanguage/package-standards). Licensed under [MPL-2.0](LICENSE).

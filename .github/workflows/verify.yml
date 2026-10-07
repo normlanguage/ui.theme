@@ -3,11 +3,14 @@ name: Verify
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   verify:
@@ -35,8 +38,12 @@ jobs:
           & "$env:JAVA_HOME_21_X64/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
       - name: Theme contracts
         run: ./scripts/norm.ps1 test ui/theme
-      - name: Package
-        run: ./scripts/norm.ps1 package ui/theme --output build/repository
+      - id: package
+        uses: normlanguage/registry/.github/actions/package-module@b11598bb9fe34b87f9cee64c674c2bcf317cb04b
+        with:
+          module-path: ui/theme
+          norm-executable: ./scripts/norm.ps1
+          cache-directory: .norm-home/.norm/cache/packages/github
       - name: Archive consumer and desktop acceptance
         run: |
           ./scripts/desktop.ps1 -Verify -JavaHome $env:JAVA_HOME_21_X64
@@ -50,3 +57,7 @@ jobs:
           path: |
             build/repository
             build/desktop-preview.png
+      - uses: normlanguage/registry/.github/actions/publish-module@b11598bb9fe34b87f9cee64c674c2bcf317cb04b
+        with:
+          archive: ${{ steps.package.outputs.archive }}
+          version: ${{ steps.package.outputs.version }}
