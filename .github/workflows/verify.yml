@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: normlanguage/registry/.github/actions/setup-norm@d229852448570c786a3f86e62c7db36769ed9a18
         with:
-          source-ref: 9dd8571427f77e7fa9b9adab38ac1272f7d82d2a
+          source-ref: 73c85f207aec21a1f3a12c2e4943d1af54b64449
       - name: Build and check
         run: |
           ./scripts/build.ps1 -JavaHome $env:JAVA_HOME_21_X64
