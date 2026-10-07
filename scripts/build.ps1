@@ -2,7 +2,7 @@ param([string]$JavaHome = $env:JAVA_HOME, [switch]$UpdatePin)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $classes = Join-Path $root 'build/classes'
-$modulePath = Join-Path $root 'theme/module.norm'
+$modulePath = Join-Path $root 'ui/theme/module.norm'
 $module = Get-Content -Raw $modulePath
 $coordinate = [regex]::Match($module, 'mavenJar\(group: "([^"]+)", artifact: "([^"]+)", version: "([^"]+)"')
 if (!$coordinate.Success) { throw 'Missing color kernel Maven coordinate in module.norm' }
@@ -26,5 +26,5 @@ if ($UpdatePin) {
     $module = [regex]::Replace($module, ', resolution: sha256\("[a-f0-9]+"\)', '')
     Set-Content -LiteralPath $modulePath -Value $module -NoNewline
 }
-& (Join-Path $PSScriptRoot 'norm.ps1') resolve (Join-Path $root 'theme')
+& (Join-Path $PSScriptRoot 'norm.ps1') resolve (Join-Path $root 'ui/theme')
 if ($LASTEXITCODE -ne 0) { throw 'Module resolution failed; use -UpdatePin after changing the kernel' }

@@ -4,7 +4,7 @@ $root = Split-Path $PSScriptRoot -Parent
 $classes = Join-Path $root 'build/preview-classes'
 $library = Join-Path $root 'samples/desktop/lib'
 & (Join-Path $PSScriptRoot 'compile.ps1') -Sources (Join-Path $root 'samples/desktop/java') -Classes $classes -Archive (Join-Path $library 'preview.jar') -JavaHome $JavaHome
-& (Join-Path $PSScriptRoot 'norm.ps1') package (Join-Path $root 'theme') --output (Join-Path $root '.norm-home/.norm/cache/packages')
+& (Join-Path $PSScriptRoot 'norm.ps1') package (Join-Path $root 'ui/theme') --output (Join-Path $root '.norm-home/.norm/cache/packages')
 if ($LASTEXITCODE -ne 0) { throw 'Theme packaging failed' }
 if ($UpdatePin) {
     $module = Join-Path $root 'samples/desktop/module.norm'

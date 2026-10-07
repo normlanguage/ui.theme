@@ -3,7 +3,8 @@ $previousOptions = $env:JAVA_TOOL_OPTIONS
 try {
     $developmentHome = Join-Path $root '.norm-home'
     $env:JAVA_TOOL_OPTIONS = "$previousOptions -Duser.home=`"$developmentHome`""
-    & norm @args
+    $executable = if ($env:NORM_EXECUTABLE) { $env:NORM_EXECUTABLE } else { "norm" }
+    & $executable @args
     $result = $LASTEXITCODE
 } finally {
     $env:JAVA_TOOL_OPTIONS = $previousOptions
