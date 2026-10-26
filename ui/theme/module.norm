@@ -1,7 +1,7 @@
 Module module() {
   return module(
     name: "ui.theme",
-    version: 3,
+    version: 4,
     exports: ["color", "palette", "lifecycle"],
     binding: jarBinding(
       target: mavenJar(group: "dev.normlanguage", artifact: "theme-colors", version: "2", resolution: sha256("eb21954d4d9eb213d8c2076aba72b6a815b567f099099e8f94f448a1c7347f78")),
