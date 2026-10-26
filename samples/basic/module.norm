@@ -1,6 +1,6 @@
 Module module() {
   module(
     name: "basic",
-    dependencies: [dependency(repository: "github", name: "ui.theme", version: 3)]
+    dependencies: [dependency(repository: "github", name: "ui.theme", version: 4)]
   )
 }

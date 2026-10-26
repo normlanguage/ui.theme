@@ -2,7 +2,7 @@ Module module() {
   module(
     name: "desktop",
     exports: ["Preview"],
-    dependencies: [dependency(repository: "norm", name: "java.base", version: 1), dependency(repository: "github", name: "ui.theme", version: 3)],
+    dependencies: [dependency(repository: "norm", name: "java.base", version: 1), dependency(repository: "github", name: "ui.theme", version: 4)],
     binding: jarBinding(
       target: localJar(path: "lib/preview.jar", integrity: sha256("76bb034c56236086e66d89e0fbb5f506df4b4310c3c71b73f612724f60904aaf")),
       api: [jarType(name: "Preview", members: ["new", "show", "apply", "nextAction", "save", "close"])]
