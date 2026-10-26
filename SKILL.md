@@ -1,6 +1,6 @@
 # ui.theme Skill
 
-Use this skill to work with Norm module `ui.theme` version 3. Use only declarations listed below.
+Use this skill to work with Norm module `ui.theme` version 4. Use only declarations listed below.
 
 ## `ui.theme`
 
