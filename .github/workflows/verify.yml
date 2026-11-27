@@ -21,21 +21,25 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880
+        with:
+          distribution: oracle
+          java-version: 25.0.5.1
       - uses: normlanguage/registry/.github/actions/setup-norm@90b4d247fa4f5f2b620924d2cbc0553e89843700
         with:
           version: 0.27.23
       - name: Build and check
         run: |
-          ./scripts/build.ps1 -JavaHome $env:JAVA_HOME_21_X64
+          ./scripts/build.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/norm.ps1 check ui/theme
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git diff --exit-code -- ui/theme/module.norm
       - name: Color kernel references
         run: |
-          & "$env:JAVA_HOME_21_X64/bin/javac.exe" --release 21 -cp build/classes -d build/test-classes src/test/java/dev/normlanguage/theme/ColorMathTest.java
+          & "$env:JAVA_HOME/bin/javac.exe" --release 25 -cp build/classes -d build/test-classes src/test/java/dev/normlanguage/theme/ColorMathTest.java
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          & "$env:JAVA_HOME_21_X64/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
+          & "$env:JAVA_HOME/bin/java.exe" -cp 'build/classes;build/test-classes' dev.normlanguage.theme.ColorMathTest
       - name: Theme contracts
         run: ./scripts/norm.ps1 test ui/theme
       - id: package
@@ -46,7 +50,7 @@ jobs:
           cache-directory: .norm-home/.norm/cache/packages/github
       - name: Archive consumer and desktop acceptance
         run: |
-          ./scripts/desktop.ps1 -Verify -JavaHome $env:JAVA_HOME_21_X64
+          ./scripts/desktop.ps1 -Verify
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/norm.ps1 run samples/basic
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

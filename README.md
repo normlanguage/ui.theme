@@ -34,9 +34,9 @@ Complete executable usage and imports: [basic sample](samples/basic/application.
 
 ## Development
 
-Requires Windows PowerShell 7, the compiler selected by [the verification workflow](.github/workflows/verify.yml), and JDK 21. Run from the repository root:
+Requires Windows PowerShell 7, the compiler selected by [the verification workflow](.github/workflows/verify.yml), and JDK 25. Run from the repository root:
 
-Set `JAVA_HOME` to JDK 21, or pass `-JavaHome` to the build and desktop scripts. Java compiler versions can produce different bytecode even with the same `--release` target; the build requires JDK 21 to preserve artifact digests.
+Set `JAVA_HOME` to JDK 25, or pass `-JavaHome` to the build and desktop scripts. Java compiler versions can produce different bytecode even with the same `--release` target; the build requires JDK 25 to preserve artifact digests.
 
 ```powershell
 ./scripts/build.ps1
@@ -50,7 +50,7 @@ Set `JAVA_HOME` to JDK 21, or pass `-JavaHome` to the build and desktop scripts.
 
 `scripts/norm.ps1` isolates candidate packages in `.norm-home`; it does not install into the user's normal package cache. After intentionally changing the color kernel, rebuild with `./scripts/build.ps1 -UpdatePin` and review the resulting module digest.
 
-The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. The release workflow publishes the NAR and SHA-256 sidecar for an immutable version tag. The package includes and verifies its kernel dependency; consumers declare `dependency(repository: "github", name: "ui.theme", version: 3)`. Building a candidate does not publish anything.
+The local Maven repository in `build/repository` contains the kernel JAR/POM and the packaged Norm module. The release workflow publishes the NAR and SHA-256 sidecar for an immutable version tag. The package includes and verifies its kernel dependency; consumers declare `dependency(repository: "github", name: "ui.theme", version: 6)`. Building a candidate does not publish anything.
 
 [Desktop sample](samples/README.md) opens an interactive preview without verification mode.
 

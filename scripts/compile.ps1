@@ -18,11 +18,11 @@ New-Item -ItemType Directory -Force $target, (Split-Path $Archive -Parent) | Out
 $javac = if ($JavaHome) { Join-Path $JavaHome 'bin/javac.exe' } else { 'javac' }
 $jar = if ($JavaHome) { Join-Path $JavaHome 'bin/jar.exe' } else { 'jar' }
 $compilerVersion = & $javac -version
-if ($LASTEXITCODE -ne 0 -or $compilerVersion -notmatch '^javac 21\.') {
-    throw 'Reproducible artifacts require JDK 21; pass -JavaHome with its installation directory'
+if ($LASTEXITCODE -ne 0 -or $compilerVersion -notmatch '^javac 25\.') {
+    throw 'Reproducible artifacts require JDK 25; pass -JavaHome with its installation directory'
 }
 $files = Get-ChildItem -LiteralPath $Sources -Filter '*.java' -Recurse | ForEach-Object FullName
-& $javac --release 21 -encoding UTF-8 -d $target $files
+& $javac --release 25 -encoding UTF-8 -d $target $files
 if ($LASTEXITCODE -ne 0) { throw 'Java compilation failed' }
 New-Item -ItemType Directory -Force (Join-Path $target 'META-INF') | Out-Null
 Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $target 'META-INF/LICENSE')
