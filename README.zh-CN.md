@@ -15,7 +15,7 @@
 - [构建与本地包验证](README.md#development)
 - [真实桌面示例](samples/README.md)
 
-模块名称、版本、依赖和颜色内核坐标统一在 [module.norm](ui/theme/module.norm) 声明。构建使用独立缓存，不会发布工件或修改用户的常规包缓存。
+模块名称、版本、依赖和颜色内核坐标统一在 [module.norm](ui/theme/module.norm) 声明。颜色内核和桌面示例使用 JDK 25 构建，运行时也需要 Java 25 或更高版本。构建使用独立缓存，不会发布工件或修改用户的常规包缓存。
 
 直接运行 `norm run samples/basic` 消费发布包，无需构建本仓库。桌面示例也默认使用发布包；仅显式传入 `-Source` 才验证当前源码。
 
